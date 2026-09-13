@@ -11,10 +11,10 @@ import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
 import { PortfolioData } from './types';
 import { defaultPortfolioData } from './data/defaultData';
-import { getStoredAvatar, saveStoredAvatar, removeStoredAvatar } from './utils/mediaStorage';
+import { getStoredAvatar, getStoredVoiceAudio } from './utils/mediaStorage';
 
 export default function App() {
-  const [data, setData] = useState<PortfolioData>(() => {
+  const [data] = useState<PortfolioData>(() => {
     const stored = getStoredAvatar();
     if (stored) {
       return {
@@ -28,35 +28,27 @@ export default function App() {
     return defaultPortfolioData;
   });
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-  const [isCustomAvatar, setIsCustomAvatar] = useState(false);
 
+  // Synchronize stored avatar and voice to persistent server storage on load
   useEffect(() => {
-    setIsCustomAvatar(!!getStoredAvatar());
+    const syncPersistedMedia = async () => {
+      try {
+        const avatar = getStoredAvatar();
+        const voice = await getStoredVoiceAudio();
+        if (avatar || voice) {
+          await fetch('/api/sync-media', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ avatar, voice }),
+          });
+        }
+      } catch (err) {
+        console.warn('Persisted media sync check:', err);
+      }
+    };
+
+    syncPersistedMedia();
   }, []);
-
-  const handleUpdateAvatar = (newAvatarUrl: string) => {
-    saveStoredAvatar(newAvatarUrl);
-    setIsCustomAvatar(true);
-    setData((prev) => ({
-      ...prev,
-      avatarUrl: newAvatarUrl,
-      videoShowcase: prev.videoShowcase
-        ? { ...prev.videoShowcase, posterUrl: newAvatarUrl }
-        : undefined,
-    }));
-  };
-
-  const handleResetAvatar = () => {
-    removeStoredAvatar();
-    setIsCustomAvatar(false);
-    setData((prev) => ({
-      ...prev,
-      avatarUrl: defaultPortfolioData.avatarUrl,
-      videoShowcase: defaultPortfolioData.videoShowcase
-        ? { ...defaultPortfolioData.videoShowcase, posterUrl: defaultPortfolioData.avatarUrl }
-        : undefined,
-    }));
-  };
 
   return (
     <div className="min-h-screen bg-[#faf9f6] text-stone-900 font-sans selection:bg-emerald-100 selection:text-emerald-900 antialiased">
@@ -66,18 +58,15 @@ export default function App() {
         onOpenResume={() => setIsResumeOpen(true)}
       />
 
-      {/* Main Content Sections */}
+      {/* Main Content Sections (Locked Read-Only for Public Sharing) */}
       <main>
-        {/* 1. Hero Section with Typewriter, Voice Narration & Light styling */}
+        {/* 1. Hero Section with Typewriter, Authentic Voice Narration & Light styling */}
         <Hero
           data={data}
           onOpenResume={() => setIsResumeOpen(true)}
-          onUpdateAvatar={handleUpdateAvatar}
-          onResetAvatar={handleResetAvatar}
-          isCustomAvatar={isCustomAvatar}
         />
 
-        {/* 2. Video Showreel & Motion Showcase (Timeline synchronized with Audio Narration) */}
+        {/* 2. Video Showreel & Motion Showcase */}
         {data.videoShowcase?.enabled && (
           <VideoSection
             showcase={data.videoShowcase}
@@ -107,7 +96,7 @@ export default function App() {
           onOpenResume={() => setIsResumeOpen(true)}
         />
 
-        {/* 7. Contact Section with Voice Typing Dictation & Verified Channels */}
+        {/* 7. Contact Section with Verified Channels */}
         <Contact
           data={data}
         />

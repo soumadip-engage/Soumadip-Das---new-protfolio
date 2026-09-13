@@ -1,6 +1,6 @@
 {
   "name": "Soumadip Das Portfolio",
   "description": "Personal interactive portfolio of Soumadip Das, Tejas India Hackathon Winner and Information Technology engineer at Haldia Institute of Technology, featuring animated video showreel, real-time UPI fraud detection simulator, and voice narration.",
-  "requestFramePermissions": ["microphone"],
+  "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

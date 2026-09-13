@@ -1,32 +1,21 @@
-import React, { useState, useRef } from 'react';
-import { Play, Github, Linkedin, Twitter, Mail, MapPin, Sparkles, ArrowRight, Volume2, Award, Download, Phone, Check, Camera, Upload } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState } from 'react';
+import { Play, Github, Linkedin, Twitter, Mail, MapPin, Sparkles, ArrowRight, Award, Download, Phone, Check } from 'lucide-react';
+import { motion } from 'motion/react';
 import { PortfolioData } from '../types';
 import { VoicePlayer } from './VoicePlayer';
 import { TypewriterText } from './TypewriterText';
 import { downloadResumePdf } from '../utils/generatePdf';
-import { PhotoUploadModal } from './PhotoUploadModal';
-import { optimizeImageFile } from '../utils/mediaStorage';
 
 interface HeroProps {
   data: PortfolioData;
   onOpenResume?: () => void;
-  onUpdateAvatar?: (newAvatarUrl: string) => void;
-  onResetAvatar?: () => void;
-  isCustomAvatar?: boolean;
 }
 
 export const Hero: React.FC<HeroProps> = ({ 
   data, 
   onOpenResume,
-  onUpdateAvatar,
-  onResetAvatar,
-  isCustomAvatar = false,
 }) => {
   const [downloadSuccess, setDownloadSuccess] = useState(false);
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [photoToast, setPhotoToast] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDownloadResume = () => {
     downloadResumePdf(data);
@@ -34,25 +23,6 @@ export const Hero: React.FC<HeroProps> = ({
     setTimeout(() => setDownloadSuccess(false), 3000);
     if (onOpenResume) {
       onOpenResume();
-    }
-  };
-
-  const handleSaveAvatar = (newAvatarUrl: string) => {
-    if (onUpdateAvatar) {
-      onUpdateAvatar(newAvatarUrl);
-      setPhotoToast(true);
-      setTimeout(() => setPhotoToast(false), 4000);
-    }
-  };
-
-  const handleQuickFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      try {
-        const optimized = await optimizeImageFile(e.target.files[0]);
-        handleSaveAvatar(optimized);
-      } catch (err) {
-        setIsUploadModalOpen(true);
-      }
     }
   };
 
@@ -274,86 +244,12 @@ export const Hero: React.FC<HeroProps> = ({
                 }}
               />
               <div className="absolute inset-0 rounded-3xl ring-1 ring-stone-900/5 pointer-events-none" />
-
-              {/* Permanent Change Photo Button (Upload from files) */}
-              <div className="absolute bottom-3 right-3 flex items-center gap-1.5 z-20">
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  accept="image/*"
-                  onChange={handleQuickFileChange}
-                  className="hidden"
-                />
-
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.96 }}
-                  onClick={() => setIsUploadModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-900/90 hover:bg-stone-900 text-white text-xs font-semibold shadow-md backdrop-blur-md border border-white/20 transition-all cursor-pointer"
-                  title="Upload profile photo from your device"
-                >
-                  <Camera className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Change Photo</span>
-                </motion.button>
-              </div>
             </div>
-
-            {/* Custom Avatar Active Pill & Reset */}
-            {isCustomAvatar && (
-              <div className="mt-3 flex items-center justify-center gap-2">
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
-                  <Check className="w-3 h-3 text-emerald-600" />
-                  <span>Custom Photo Set</span>
-                </span>
-                {onResetAvatar && (
-                  <button
-                    onClick={onResetAvatar}
-                    className="text-[11px] text-stone-500 hover:text-rose-600 underline cursor-pointer"
-                  >
-                    Reset to default
-                  </button>
-                )}
-              </div>
-            )}
           </motion.div>
 
         </div>
 
       </div>
-
-      {/* Success Toast Notification */}
-      <AnimatePresence>
-        {photoToast && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-stone-900 text-white shadow-2xl flex items-center gap-3 border border-stone-800"
-          >
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <Check className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-stone-100">
-                Profile Photo Saved Permanently!
-              </p>
-              <p className="text-[11px] text-stone-400">
-                Your new photo is now active across your entire portfolio.
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Photo Upload Modal */}
-      <PhotoUploadModal
-        isOpen={isUploadModalOpen}
-        onClose={() => setIsUploadModalOpen(false)}
-        currentAvatarUrl={data.avatarUrl || '/profile.jpg'}
-        onSaveAvatar={handleSaveAvatar}
-        onResetDefault={onResetAvatar}
-        isCustomAvatar={isCustomAvatar}
-      />
     </section>
   );
 };
