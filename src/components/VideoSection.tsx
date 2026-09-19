@@ -258,18 +258,21 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
   };
 
   return (
-    <section id="video-reel" className="py-20 px-4 sm:px-6 bg-stone-100/70 border-t border-stone-200/80">
-      <div className="max-w-5xl mx-auto">
+    <section id="video-reel" className="py-24 px-4 sm:px-6 bg-[#050811] text-white border-t border-white/10 relative overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 right-10 w-96 h-96 bg-cyan-600/10 blur-[140px] pointer-events-none rounded-full" />
+
+      <div className="max-w-5xl mx-auto relative z-10">
         {/* Section Heading */}
-        <div className="mb-8">
-          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 bg-emerald-100/90 px-2.5 py-1 rounded-full inline-flex items-center gap-1.5">
-            <Film className="w-3.5 h-3.5" />
-            <span>Interactive Profile Showreel</span>
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight mt-2">
-            {showcase.title || 'Profile Video & Work in Motion'}
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/80 border border-cyan-400/40 text-cyan-300 text-xs font-mono font-semibold mb-3">
+            <Film className="w-3.5 h-3.5 text-cyan-400" />
+            <span>INTERACTIVE AUDIOVISUAL SHOWREEL</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            {showcase.title || 'Profile Video & Systems in Motion'}
           </h2>
-          <p className="text-sm text-stone-600 mt-1.5 max-w-xl">
+          <p className="text-sm sm:text-base text-stone-300 mt-2 max-w-xl">
             {showcase.subtitle || 'Synchronized presentation highlighting hackathon victory, academic records, and research.'}
           </p>
         </div>

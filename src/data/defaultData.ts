@@ -14,7 +14,6 @@ export const defaultPortfolioData: PortfolioData = {
   ],
   voiceIntroText: "Hi, I am Soumadip Das, an Information Technology student and AI and software developer, passionate about building practical, intelligent, and impactful technology solutions. As a 1x hackathon winner, I enjoy turning ideas into working products through problem solving, software development, AI, and data-driven technologies. I have hands-on experience with Python, Java, C, C++, SQL, SQLite, HTML, CSS, JavaScript, Git, GitHub, Power BI, and Generative AI. My project experience includes SecureFlow AI, an AI-powered UPI fraud detection system and prevention platform developed for a national level hackathon. Beyond development, I have experience in AI training, research, digital marketing, community engagement, and team leadership. I am continuously learning, experimenting with new technologies, and looking for opportunities to build solutions that solve real-world problems.",
   email: 'soumadipd43@gmail.com',
-  phone: '+91-7547949426',
   location: 'Haldia, West Bengal, India',
   social: {
     github: 'https://github.com/soumadip-engage',

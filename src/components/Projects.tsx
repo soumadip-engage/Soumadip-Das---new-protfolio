@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Github, Plus, Film, Play, Pause, Award, ShieldAlert, ShieldCheck, Activity, BarChart3, ArrowRight, Zap, RefreshCw } from 'lucide-react';
+import { ExternalLink, Github, Plus, Film, Play, Pause, Award, ShieldAlert, ShieldCheck, Activity, BarChart3, ArrowRight, Zap, RefreshCw, Orbit } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PortfolioData, Project } from '../types';
 
@@ -69,17 +69,17 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
       setIsScanning(false);
       if (type === 'safe') {
         setScanResult({
-          score: Math.floor(Math.random() * 12) + 8,
+          score: 8,
           status: 'APPROVED',
-          flags: ['Device Fingerprint Matched', 'Biometric Auth Verified', 'Velocity: 1 txn/hr'],
-          latency: Math.floor(Math.random() * 15) + 32,
+          flags: ['Device Fingerprint Verified', 'Standard Velocity', 'Regular P2M Merchant'],
+          latency: 24,
         });
       } else if (type === 'high_value') {
         setScanResult({
-          score: 58,
+          score: 61,
           status: 'CHALLENGE',
-          flags: ['High Amount (₹75,000)', 'New Device MAC', 'Step-up OTP Required'],
-          latency: 44,
+          flags: ['Amount 12× 30-day mean', 'Midnight transaction timestamp', 'Biometric step-up requested'],
+          latency: 42,
         });
       } else {
         setScanResult({
@@ -93,19 +93,22 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
   };
 
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 border-t border-stone-200/80 bg-stone-50/40">
-      <div className="max-w-5xl mx-auto">
+    <section id="projects" className="py-24 px-4 sm:px-6 border-t border-white/10 bg-[#050811] text-white relative overflow-hidden">
+      {/* Space ambient lighting */}
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-cyan-600/10 blur-[150px] pointer-events-none rounded-full" />
+
+      <div className="max-w-5xl mx-auto relative z-10">
         {/* Section Heading */}
-        <div className="mb-8">
-          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full inline-flex items-center gap-1.5">
-            <Activity className="w-3.5 h-3.5" />
-            <span>03 // Flagship Works</span>
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight mt-2">
-            Featured Projects
+        <div className="mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/80 border border-cyan-400/40 text-cyan-300 text-xs font-mono font-semibold mb-3">
+            <Orbit className="w-3.5 h-3.5 text-cyan-400" />
+            <span>03 // FLAGSHIP WORKS</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            Featured Systems & Deployments
           </h2>
-          <p className="text-sm text-stone-600 mt-1 max-w-xl">
-            Engineered by Soumadip Das • Tejas India Hackathon Winner (Team Lead) & Quantitative Research.
+          <p className="text-sm sm:text-base text-stone-300 mt-2 max-w-xl">
+            Engineered by Soumadip Das • Tejas India Hackathon Winner (Team Lead) & Quantitative Anomaly Systems.
           </p>
         </div>
 
@@ -122,10 +125,10 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.15 }}
-                className="group flex flex-col rounded-3xl bg-white border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 overflow-hidden transition-all duration-300"
+                className="group flex flex-col rounded-3xl bg-[#090e1f] border border-cyan-500/20 hover:border-cyan-400/60 shadow-[0_0_25px_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] overflow-hidden transition-all duration-300"
               >
                 {/* Media Container with Badges */}
-                <div className="relative aspect-video w-full overflow-hidden bg-stone-100">
+                <div className="relative aspect-video w-full overflow-hidden bg-black/40">
                   {playingVideoId === project.id && project.videoUrl ? (
                     <video
                       src={project.videoUrl}
@@ -140,7 +143,7 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                         src={project.imageUrl || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop'}
                         alt={project.title}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop';
                         }}
@@ -156,15 +159,15 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
 
                       {/* Research Tag for War Project */}
                       {isWarProject && (
-                        <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-700 text-white text-xs font-semibold font-mono shadow-md">
-                          <BarChart3 className="w-3.5 h-3.5" />
+                        <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-900/90 text-cyan-200 border border-cyan-400/50 text-xs font-semibold font-mono shadow-md backdrop-blur-sm">
+                          <BarChart3 className="w-3.5 h-3.5 text-cyan-400" />
                           <span>Macroeconomic Research</span>
                         </div>
                       )}
 
                       {/* Category tag on right */}
                       {project.category && (
-                        <span className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-stone-900/80 backdrop-blur-md text-white text-[11px] font-mono font-medium shadow-xs">
+                        <span className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md text-white text-[11px] font-mono font-medium border border-white/10 shadow-xs">
                           {project.category}
                         </span>
                       )}
@@ -173,12 +176,12 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                 </div>
 
                 {/* Project Info */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-xl font-bold text-stone-900 group-hover:text-emerald-700 transition-colors mb-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors mb-2">
                       {project.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed mb-4">
+                    <p className="text-xs sm:text-sm text-stone-300 leading-relaxed mb-4">
                       {project.description}
                     </p>
                   </div>
@@ -189,7 +192,7 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                       {project.tags.map((tag, tIdx) => (
                         <span
                           key={tIdx}
-                          className="px-2.5 py-1 rounded-lg bg-stone-100 border border-stone-200/80 text-stone-700 text-[11px] font-mono"
+                          className="px-2.5 py-1 rounded-lg bg-cyan-950/50 border border-cyan-800/40 text-cyan-200 text-[11px] font-mono"
                         >
                           {tag}
                         </span>
@@ -197,11 +200,11 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                     </div>
 
                     {/* Interactive Animated Feature Buttons */}
-                    <div className="space-y-3 pt-3 border-t border-stone-100">
+                    <div className="space-y-3 pt-4 border-t border-white/10">
                       {isUpiProject && (
                         <button
                           onClick={() => setShowUpiSim(!showUpiSim)}
-                          className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+                          className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-sky-600 hover:from-cyan-500 hover:to-sky-500 text-white text-xs font-bold font-mono flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
                         >
                           <Zap className="w-3.5 h-3.5 fill-current" />
                           <span>{showUpiSim ? 'Close Live Risk Simulator' : 'Test Live UPI Threat Simulator'}</span>
@@ -211,23 +214,23 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                       {isWarProject && (
                         <button
                           onClick={() => setShowEconExplorer(!showEconExplorer)}
-                          className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-stone-800 to-stone-900 hover:from-stone-700 hover:to-stone-800 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+                          className="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold font-mono flex items-center justify-center gap-2 border border-white/10 transition-all cursor-pointer"
                         >
-                          <BarChart3 className="w-3.5 h-3.5" />
+                          <BarChart3 className="w-3.5 h-3.5 text-cyan-400" />
                           <span>{showEconExplorer ? 'Close Economic Explorer' : 'Explore Macroeconomic Data (2020-2023)'}</span>
                         </button>
                       )}
 
-                      {/* External Links */}
-                      <div className="flex items-center gap-4 pt-1">
+                      {/* Links Row */}
+                      <div className="flex items-center justify-between pt-1">
                         {project.liveUrl && (
                           <a
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 hover:text-emerald-800 transition-colors"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 font-mono transition-colors"
                           >
-                            <span>Live Preview</span>
+                            <span>Live Telemetry</span>
                             <ExternalLink className="w-3.5 h-3.5" />
                           </a>
                         )}
@@ -236,7 +239,7 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-600 hover:text-stone-900 transition-colors"
+                            className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-stone-300 hover:text-white transition-colors"
                           >
                             <Github className="w-3.5 h-3.5" />
                             <span>Source Code</span>
@@ -260,17 +263,17 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
               exit={{ opacity: 0, height: 0 }}
               className="mt-8 overflow-hidden"
             >
-              <div className="p-6 sm:p-8 rounded-3xl bg-stone-950 text-white border border-stone-800 shadow-2xl">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-stone-800">
+              <div className="p-6 sm:p-8 rounded-3xl bg-[#080d1e] text-white border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.25)]">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
                       <Zap className="w-5 h-5" />
                     </div>
                     <div>
                       <h4 className="text-base font-bold text-white flex items-center gap-2">
                         <span>SecureFlow AI: Live UPI Risk Assessment Simulator</span>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800">
-                          Smart India Hackathon Winner
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-950 text-cyan-400 border border-cyan-800">
+                          Tejas India Hackathon Winner
                         </span>
                       </h4>
                       <p className="text-xs text-stone-400 mt-0.5">
@@ -291,119 +294,83 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                   <button
                     onClick={() => runUpiSimulation('safe')}
-                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                       simTxnType === 'safe'
-                        ? 'bg-emerald-950/70 border-emerald-500 shadow-md'
-                        : 'bg-stone-900 border-stone-800 hover:border-stone-700'
+                        ? 'bg-emerald-950/70 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+                        : 'bg-white/5 border-white/10 hover:border-white/20'
                     }`}
                   >
-                    <span className="text-xs font-bold text-white block">Scenario A: Normal Payment</span>
-                    <span className="text-[11px] text-stone-400 block mt-1">₹450 • Trusted Device • Known Merchant</span>
+                    <span className="text-xs font-bold text-white block font-mono">Scenario A: Normal Payment</span>
+                    <span className="text-[11px] text-stone-400 block mt-1 font-mono">₹450 • Trusted Device • Known Merchant</span>
                   </button>
 
                   <button
                     onClick={() => runUpiSimulation('high_value')}
-                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                       simTxnType === 'high_value'
-                        ? 'bg-amber-950/70 border-amber-500 shadow-md'
-                        : 'bg-stone-900 border-stone-800 hover:border-stone-700'
+                        ? 'bg-amber-950/70 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]'
+                        : 'bg-white/5 border-white/10 hover:border-white/20'
                     }`}
                   >
-                    <span className="text-xs font-bold text-white block">Scenario B: High-Value Anomaly</span>
-                    <span className="text-[11px] text-stone-400 block mt-1">₹75,000 • New Hardware MAC • Late Night</span>
+                    <span className="text-xs font-bold text-white block font-mono">Scenario B: High-Value Anomaly</span>
+                    <span className="text-[11px] text-stone-400 block mt-1 font-mono">₹75,000 • New Hardware MAC • Late Night</span>
                   </button>
 
                   <button
                     onClick={() => runUpiSimulation('fraud')}
-                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                       simTxnType === 'fraud'
-                        ? 'bg-red-950/70 border-red-500 shadow-md'
-                        : 'bg-stone-900 border-stone-800 hover:border-stone-700'
+                        ? 'bg-red-950/70 border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+                        : 'bg-white/5 border-white/10 hover:border-white/20'
                     }`}
                   >
-                    <span className="text-xs font-bold text-white block">Scenario C: Rapid Velocity Drain</span>
-                    <span className="text-[11px] text-stone-400 block mt-1">14 txns/min • Geo-Hop • Mule Account</span>
+                    <span className="text-xs font-bold text-white block font-mono">Scenario C: Coordinated Mule Attack</span>
+                    <span className="text-[11px] text-stone-400 block mt-1 font-mono">₹1,90,000 • Velocity Spike • Flagged Mule</span>
                   </button>
                 </div>
 
-                {/* Real-time Telemetry Dashboard Result */}
-                <div className="p-5 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col md:flex-row items-center justify-between gap-6">
-                  {/* Gauge Display */}
-                  <div className="flex items-center gap-5">
-                    <div className="relative w-24 h-24 flex items-center justify-center">
-                      {isScanning ? (
-                        <RefreshCw className="w-8 h-8 text-emerald-400 animate-spin" />
-                      ) : (
-                        <>
-                          <svg className="w-24 h-24 -rotate-90" viewBox="0 0 36 36">
-                            <path
-                              className="text-stone-800"
-                              strokeWidth="3.5"
-                              stroke="currentColor"
-                              fill="none"
-                              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            />
-                            <path
-                              className={
-                                scanResult.score > 70
-                                  ? 'text-red-500'
-                                  : scanResult.score > 40
-                                  ? 'text-amber-400'
-                                  : 'text-emerald-400'
-                              }
-                              strokeDasharray={`${scanResult.score}, 100`}
-                              strokeWidth="3.5"
-                              strokeLinecap="round"
-                              stroke="currentColor"
-                              fill="none"
-                              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            />
-                          </svg>
-                          <div className="absolute text-center">
-                            <span className="text-xl font-bold font-mono text-white block">{scanResult.score}</span>
-                            <span className="text-[9px] font-mono text-stone-400 uppercase">Risk</span>
-                          </div>
-                        </>
-                      )}
+                {/* Live Inspection Screen */}
+                <div className="p-5 rounded-2xl bg-black/60 border border-white/10 font-mono space-y-4">
+                  <div className="flex items-center justify-between text-xs pb-3 border-b border-white/10">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${isScanning ? 'bg-amber-400 animate-ping' : 'bg-cyan-400'}`} />
+                      <span className="text-stone-300">
+                        STATUS: {isScanning ? 'PROCESSING TELEMETRY PACKET...' : 'INFERENCE COMPLETE'}
+                      </span>
+                    </div>
+                    <span className="text-cyan-400 font-bold">LATENCY: {scanResult.latency}ms</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <span className="text-stone-400 block mb-1 text-[11px]">ANOMALY RISK SCORE:</span>
+                      <div className="flex items-baseline gap-2">
+                        <span className={`text-3xl font-extrabold ${
+                          scanResult.score < 30 ? 'text-emerald-400' : scanResult.score < 70 ? 'text-amber-400' : 'text-red-400'
+                        }`}>
+                          {scanResult.score}/100
+                        </span>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                          scanResult.status === 'APPROVED' ? 'bg-emerald-950 text-emerald-300 border border-emerald-700' :
+                          scanResult.status === 'CHALLENGE' ? 'bg-amber-950 text-amber-300 border border-amber-700' :
+                          'bg-red-950 text-red-300 border border-red-700'
+                        }`}>
+                          {scanResult.status}
+                        </span>
+                      </div>
                     </div>
 
                     <div>
-                      <span className="text-[10px] font-mono text-stone-400 uppercase block">Engine Decision</span>
-                      <div className="flex items-center gap-2 mt-1">
-                        {scanResult.status === 'APPROVED' && (
-                          <span className="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold font-mono inline-flex items-center gap-1.5">
-                            <ShieldCheck className="w-4 h-4" />
-                            TRANSACTION APPROVED
-                          </span>
-                        )}
-                        {scanResult.status === 'CHALLENGE' && (
-                          <span className="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold font-mono inline-flex items-center gap-1.5">
-                            <ShieldAlert className="w-4 h-4" />
-                            CHALLENGE (OTP STEP-UP)
-                          </span>
-                        )}
-                        {scanResult.status === 'FLAGGED' && (
-                          <span className="px-3 py-1 rounded-lg bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold font-mono inline-flex items-center gap-1.5">
-                            <ShieldAlert className="w-4 h-4" />
-                            TRANSACTION BLOCKED
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[11px] font-mono text-stone-400 block mt-1">
-                        Inference Latency: <strong className="text-emerald-400">{scanResult.latency} ms</strong> (FastAPI + SQL Engine)
-                      </span>
+                      <span className="text-stone-400 block mb-1 text-[11px]">ENGINE HEURISTIC FLAGS:</span>
+                      <ul className="space-y-1 text-stone-300 text-[11px]">
+                        {scanResult.flags.map((flag, fIdx) => (
+                          <li key={fIdx} className="flex items-center gap-1.5">
+                            <span className="text-cyan-400">›</span>
+                            <span>{flag}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </div>
-
-                  {/* Telemetry Flags */}
-                  <div className="flex-1 max-w-sm space-y-1.5">
-                    <span className="text-[11px] font-mono text-stone-400 block">Telemetry Flags Evaluated:</span>
-                    {scanResult.flags.map((flag, fIdx) => (
-                      <div key={fIdx} className="flex items-center gap-2 text-xs text-stone-300">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                        <span>{flag}</span>
-                      </div>
-                    ))}
                   </div>
                 </div>
               </div>
@@ -411,7 +378,7 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
           )}
         </AnimatePresence>
 
-        {/* INTERACTIVE MODULE 2: Global Ripple Effects Macroeconomic Explorer */}
+        {/* INTERACTIVE MODULE 2: Macroeconomic Shock Data Explorer */}
         <AnimatePresence>
           {showEconExplorer && (
             <motion.div
@@ -420,112 +387,112 @@ export const Projects: React.FC<ProjectsProps> = ({ data }) => {
               exit={{ opacity: 0, height: 0 }}
               className="mt-8 overflow-hidden"
             >
-              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-stone-300 shadow-xl">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-stone-200">
+              <div className="p-6 sm:p-8 rounded-3xl bg-[#080d1e] text-white border border-cyan-500/40 shadow-2xl">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-stone-900 text-white">
+                    <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
                       <BarChart3 className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-base font-bold text-stone-900">
-                        Global Ripple Effects: War Economic Impact Analysis (2020–2023)
+                      <h4 className="text-base font-bold text-white">
+                        Global Supply-Chain Shock Telemetry (2020–2023)
                       </h4>
-                      <p className="text-xs text-stone-600 mt-0.5">
-                        Interactive econometric metric explorer built from trade data, commodity spikes, and supply chain telemetry.
+                      <p className="text-xs text-stone-400 mt-0.5">
+                        Quantitative econometric model tracking price shocks, transport stress, and fiscal inflation.
                       </p>
                     </div>
                   </div>
 
                   <button
                     onClick={() => setShowEconExplorer(false)}
-                    className="text-xs text-stone-500 hover:text-stone-900 font-mono cursor-pointer"
+                    className="text-xs text-stone-400 hover:text-white font-mono cursor-pointer"
                   >
                     [ Close Explorer ]
                   </button>
                 </div>
 
-                {/* Year Selectors */}
-                <div className="flex items-center gap-2 mb-6">
+                {/* Year Selection Tabs */}
+                <div className="flex gap-2 mb-6">
                   {([2020, 2021, 2022, 2023] as const).map((year) => (
                     <button
                       key={year}
                       onClick={() => setSelectedYear(year)}
                       className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
                         selectedYear === year
-                          ? 'bg-stone-900 text-white shadow-md'
-                          : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                          ? 'bg-cyan-600 text-white shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                          : 'bg-white/5 text-stone-300 hover:bg-white/10 border border-white/10'
                       }`}
                     >
-                      {year}
+                      {year} Data
                     </button>
                   ))}
                 </div>
 
-                {/* Metrics Breakdown Bars */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                  <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-                    <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1.5">
-                      <span>Energy Price Shock Index</span>
-                      <span className="font-mono text-emerald-700 font-bold">{econData[selectedYear].energyIndex} / 100</span>
+                {/* Metrics Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="flex justify-between text-xs font-semibold text-stone-300 mb-1.5 font-mono">
+                      <span>Energy Price Index</span>
+                      <span className="text-cyan-300 font-bold">{econData[selectedYear].energyIndex} / 100</span>
                     </div>
-                    <div className="w-full bg-stone-200 rounded-full h-2.5 overflow-hidden">
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${econData[selectedYear].energyIndex}%` }}
                         transition={{ duration: 0.5 }}
-                        className="bg-emerald-600 h-2.5 rounded-full"
+                        className="bg-cyan-400 h-2 rounded-full"
                       />
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-                    <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1.5">
-                      <span>Global Inflation Rate</span>
-                      <span className="font-mono text-red-600 font-bold">{econData[selectedYear].inflation}%</span>
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="flex justify-between text-xs font-semibold text-stone-300 mb-1.5 font-mono">
+                      <span>Annual Headline CPI</span>
+                      <span className="text-sky-300 font-bold">{econData[selectedYear].inflation}%</span>
                     </div>
-                    <div className="w-full bg-stone-200 rounded-full h-2.5 overflow-hidden">
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
-                        animate={{ width: `${(econData[selectedYear].inflation / 10) * 100}%` }}
+                        animate={{ width: `${Math.min(100, econData[selectedYear].inflation * 10)}%` }}
                         transition={{ duration: 0.5 }}
-                        className="bg-red-500 h-2.5 rounded-full"
+                        className="bg-sky-400 h-2 rounded-full"
                       />
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-                    <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1.5">
-                      <span>Supply Chain Disruption Pressure</span>
-                      <span className="font-mono text-amber-700 font-bold">{econData[selectedYear].supplyChainDisruption} / 100</span>
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="flex justify-between text-xs font-semibold text-stone-300 mb-1.5 font-mono">
+                      <span>Freight & Logistics Stress</span>
+                      <span className="text-amber-300 font-bold">{econData[selectedYear].supplyChainDisruption} / 100</span>
                     </div>
-                    <div className="w-full bg-stone-200 rounded-full h-2.5 overflow-hidden">
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${econData[selectedYear].supplyChainDisruption}%` }}
                         transition={{ duration: 0.5 }}
-                        className="bg-amber-500 h-2.5 rounded-full"
+                        className="bg-amber-400 h-2 rounded-full"
                       />
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-                    <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1.5">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="flex justify-between text-xs font-semibold text-stone-300 mb-1.5 font-mono">
                       <span>Food Commodity Index</span>
-                      <span className="font-mono text-stone-900 font-bold">{econData[selectedYear].foodIndex} / 100</span>
+                      <span className="text-purple-300 font-bold">{econData[selectedYear].foodIndex} / 100</span>
                     </div>
-                    <div className="w-full bg-stone-200 rounded-full h-2.5 overflow-hidden">
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${econData[selectedYear].foodIndex}%` }}
                         transition={{ duration: 0.5 }}
-                        className="bg-stone-800 h-2.5 rounded-full"
+                        className="bg-purple-400 h-2 rounded-full"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200/80 text-xs text-stone-700">
-                  <span className="font-bold text-emerald-900 block mb-1">Key Research Takeaway ({selectedYear}):</span>
+                <div className="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-stone-200 font-mono">
+                  <span className="font-bold text-cyan-300 block mb-1">Key Research Takeaway ({selectedYear}):</span>
                   <p className="leading-relaxed">{econData[selectedYear].summary}</p>
                 </div>
               </div>

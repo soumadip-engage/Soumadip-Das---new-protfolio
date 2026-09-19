@@ -28,7 +28,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, data 
   const handleDownloadText = () => {
     const resumeText = `SOUMADIP DAS
 B.Tech in Information Technology | Software & AI Engineer | Team Lead
-Email: ${data.email} | Phone: ${data.phone} | Location: ${data.location}
+Email: ${data.email} | Location: ${data.location}
 LinkedIn: ${data.social.linkedin}
 GitHub: ${data.social.github}
 Twitter/X: ${data.social.twitter}
@@ -216,10 +216,6 @@ LANGUAGES & CAMPUS INVOLVEMENT
                 <a href={`mailto:${data.email}`} className="inline-flex items-center gap-1 hover:text-emerald-700 font-medium">
                   <Mail className="w-3.5 h-3.5 text-emerald-600" />
                   <span>{data.email}</span>
-                </a>
-                <a href={`tel:${data.phone.replace(/[^+\d]/g, '')}`} className="inline-flex items-center gap-1 hover:text-emerald-700 font-medium">
-                  <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>{data.phone}</span>
                 </a>
                 <span className="inline-flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5 text-stone-400" />

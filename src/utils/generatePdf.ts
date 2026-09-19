@@ -54,7 +54,7 @@ export function downloadResumePdf(data: PortfolioData): void {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8.5);
     doc.setTextColor(75, 85, 99);
-    const contactLine1 = `Email: ${data.email}   |   Phone: ${data.phone || '+91-7547949426'}   |   Location: ${data.location || 'Haldia, West Bengal, India'}`;
+    const contactLine1 = `Email: ${data.email}   |   Location: ${data.location || 'Haldia, West Bengal, India'}`;
     doc.text(contactLine1, margin, y);
     y += 12;
 
